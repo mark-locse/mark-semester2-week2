@@ -5,19 +5,40 @@ import sqlite3
 # ==================================================
 
 def total_customers(conn):
-    pass
+    query = '''select 
+count(customer_id) as total_customers 
+from customers;'''
+    conn.execute(query)
+    return
 
 
 def customer_signup_range(conn):
-    pass
+    query = '''select 
+min(signup_date) as earliest_signup, 
+max(signup_date) as latest_signup 
+from customers;'''
+    conn.execute(query)
+    return
 
 
 def order_summary_stats(conn):
-    pass
+    query = '''select 
+count(order_id) as total_orders, 
+avg(order_total) as average_total, 
+max(order_total) as highest_total, 
+min(order_total) as lowest_total 
+from orders;'''
+    conn.execute(query)
+    return
 
 
 def driver_summary(conn):
-    pass
+    query = '''select 
+driver_id, hire_date 
+from drivers
+group by driver_id;'''
+    conn.execute(query)
+    return
 
 
 # ==================================================
