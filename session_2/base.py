@@ -1,7 +1,7 @@
 import sqlite3
 # you will need to pip install pandas matplotlib
 import pandas as pd
-import matplotlib as mpl
+import matplotlib.pyplot as plt
 
 def get_connection(db_path="orders.db"):
     """
@@ -15,9 +15,20 @@ def get_connection(db_path="orders.db"):
 def main():
 
     db = get_connection()
+    menu(db)
 
-    db.close()
+def menu(db):
+    input("Press enter to run query: ")
+    query_runner(db)
 
+def query_runner(db):
+    query='''SELECT category, sum(price) as price FROM products
+    GROUP BY category;'''
+
+    result=pd.read_sql_query(query, db)
+    result.plot.pie(y='price', labels=result['category'], autopct='%1.1f%%', legend=False)
+    plt.ylabel('')  # Remove the y-axis label
+    plt.savefig("result.png")
 
 if __name__=="__main__":
     main()
